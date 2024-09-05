@@ -10,6 +10,8 @@ and this import importes the credentials class
 
 from google.oauth2.service_account import Credentials
 
+from pprint import pprint
+
 """
 The scope IAM stands for Identity and Access Management. This configuration specifies what the user has access to.
 The scope lists the APIs that the  program should access in order to run.
@@ -45,7 +47,7 @@ def get_sales_data():
         if validate_data(sales_data):
             print("Data is valid!\n")
             break
-    return sales_data()
+    return sales_data
 
 def validate_data(values):
     """
@@ -74,13 +76,29 @@ def update_sales_worksheet(data):
     sales_worksheet.append_row(data)
     print("Sales worksheet updated succesfully...\n")
 
-        
-#def main():
-    """
-    Calls all the functions
-    """
-data = get_sales_data()
-sales_data = [int(num) for num in data]
 
-#print("Welcome to Love Sandwich")
-#main()
+def calculate_surplus_data(sales_row):
+    """
+    calculate sales with stock and calculate the surplus for each item type.
+
+    The surplus is defined as the sales figure subtracted from the stock:
+    -positive surplus indicates waste
+    -negative surplus indicates extra made where stoch was sold out.
+    """
+
+    stock = SHEET.worksheet("stock").get_all_values()
+    stock_row = stock[-1]
+    print(stock_row)
+
+def main():
+    """
+    Run all program functions
+    """
+    data = get_sales_data()
+    sales_data = [int(num) for num in data]
+    update_sales_worksheet(sales_data)
+    calculate_surplus_data(sales_data)
+    
+    
+print("Welcome to Love Sandwich")
+main()

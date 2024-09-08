@@ -40,3 +40,4 @@ else:
     print("Not a valid option. You lose.")
 
 
+print(f"Thank you trying to play the unknown adventure {name}")
